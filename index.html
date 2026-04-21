@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wage Theft Tracker — Federal Enforcement Lookup</title>
+    <meta name="description" content="Search U.S. Department of Labor wage theft enforcement records. Find federal investigations by employer name, state, or industry. View enforcement density by county.">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css">
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <h1>Wage Theft Tracker</h1>
+        <p class="subtitle">Search federal wage enforcement records</p>
+    </header>
+
+    <!-- View toggle -->
+    <nav class="view-tabs">
+        <button class="view-tab active" data-view="search">Search</button>
+        <button class="view-tab" data-view="map">Map</button>
+    </nav>
+
+    <!-- Search View -->
+    <main id="search-view">
+        <div class="search-container">
+            <input
+                type="text"
+                id="search-input"
+                placeholder="Search employer name..."
+                autocomplete="off"
+                autofocus
+            >
+            <div id="search-status" class="search-status"></div>
+        </div>
+
+        <!-- Filters (shown after search has results) -->
+        <div id="filters" class="filters hidden">
+            <select id="filter-state">
+                <option value="">All states</option>
+            </select>
+            <select id="filter-violation">
+                <option value="">All violation types</option>
+                <option value="FLSA">FLSA (Wage & Hour)</option>
+                <option value="Child Labor">Child Labor</option>
+                <option value="FMLA">FMLA (Medical Leave)</option>
+                <option value="H-1B">H-1B Visa</option>
+                <option value="H-2A">H-2A Agricultural</option>
+                <option value="H-2B">H-2B Non-Agricultural</option>
+                <option value="MSPA">MSPA (Migrant Workers)</option>
+                <option value="Davis-Bacon">Davis-Bacon (Prevailing Wage)</option>
+                <option value="SCA">SCA (Service Contract)</option>
+            </select>
+        </div>
+
+        <!-- Search Results (employer-level matches) -->
+        <div id="results" class="results"></div>
+
+        <!-- Case Details (shown when an employer is selected) -->
+        <div id="case-detail" class="case-detail hidden">
+            <button id="back-btn" class="back-btn">&larr; Back to results</button>
+            <div id="employer-header" class="employer-header"></div>
+            <div id="case-list" class="case-list"></div>
+        </div>
+
+        <!-- Stats (shown on initial page) -->
+        <div id="stats-panel" class="stats-panel">
+            <div class="stats-grid" id="stats-grid"></div>
+            <div id="top-industries" class="top-industries"></div>
+        </div>
+    </main>
+
+    <!-- Map View -->
+    <div id="map-view" class="map-view hidden">
+        <div id="map-container" class="map-container"></div>
+        <div id="map-legend" class="map-legend">
+            <div class="legend-title">Cases per county</div>
+            <div class="legend-metric">
+                <button class="legend-btn active" data-metric="cases">Cases</button>
+                <button class="legend-btn" data-metric="wages">Back Wages</button>
+            </div>
+            <div class="legend-scale" id="legend-scale"></div>
+        </div>
+        <div id="map-tooltip" class="map-tooltip"></div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p class="data-source">
+            Data: <a href="https://data.dol.gov" target="_blank" rel="noopener">U.S. Department of Labor</a>,
+            Wage and Hour Division. Updated quarterly.
+        </p>
+        <p class="disclaimer">
+            Federal enforcement actions only. Not legal advice.
+            Absence of a record does not mean no violations occurred.
+        </p>
+    </footer>
+
+    <script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
+    <script src="https://unpkg.com/topojson-client@3.1.0/dist/topojson-client.min.js"></script>
+    <script src="app.js"></script>
+    <script src="map.js"></script>
+</body>
+</html>
